@@ -4,16 +4,15 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.ktx.messaging
 
 object LibraryInstance {
 
     val TAG = "LIBRARY_TAG"
 
     fun initLibrary(ctx: Context){
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+        val fb = FirebaseMessaging.getInstance()
+        fb.token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
                 Log.w(TAG, "Fetching FCM registration token failed", task.exception)
                 return@OnCompleteListener
@@ -27,7 +26,7 @@ object LibraryInstance {
             Toast.makeText(ctx, token, Toast.LENGTH_LONG).show()
         })
 
-        Firebase.messaging.subscribeToTopic("weather")
+        fb.subscribeToTopic("weather")
             .addOnCompleteListener { task ->
                 Log.d(TAG, task.isSuccessful.toString())
             }
