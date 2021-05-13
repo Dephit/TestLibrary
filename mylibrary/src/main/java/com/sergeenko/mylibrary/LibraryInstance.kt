@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 
 object LibraryInstance {
 
@@ -22,6 +24,13 @@ object LibraryInstance {
 
             // Log and toast
             Log.d(TAG, token.toString())
+            Toast.makeText(ctx, token, Toast.LENGTH_LONG).show()
         })
+
+        Firebase.messaging.subscribeToTopic("weather")
+            .addOnCompleteListener { task ->
+                Log.d(TAG, task.isSuccessful.toString())
+            }
     }
+
 }
